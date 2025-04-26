@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .card-container {
+            width: 90%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 
+                        0 5px 15px rgba(0, 0, 0, 0.07),
+                        0 0 0 1px rgba(0, 0, 0, 0.05);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 
+                        0 10px 20px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 8px;
+        }
+
+        .card-content {
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .coming-soon-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            min-width: 80px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #667eea;
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        .countdown-label {
+            font-size: 0.85rem;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .card-container {
+                width: 95%;
+            }
+
+            .coming-soon-text {
+                font-size: 2rem;
+            }
+
+            .countdown {
+                gap: 1rem;
+            }
+
+            .countdown-item {
+                min-width: 65px;
+                padding: 0.8rem;
+            }
+
+            .countdown-value {
+                font-size: 1.8rem;
+            }
+
+            .card-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .countdown {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+            
+            .countdown-item {
+                flex: 1 0 40%;
+                margin-bottom: 0.5rem;
+                min-width: 50px;
+            }
+            
+            .countdown-value {
+                font-size: 1.5rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card-header"></div>
+        <div class="card-content">
+            <h1 class="coming-soon-text">Coming Soon</h1>
+            <p class="subtitle">I am working on it..</p>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set the launch date (30 days from now)
+        const launchDate = new Date();
+        launchDate.setDate(launchDate.getDate() + 30);
+        
+        // Update the countdown every second
+        function updateCountdown() {
+            const now = new Date();
+            const diff = launchDate - now;
+            
+            // Calculate time components
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Update display
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // Keep updating
+            requestAnimationFrame(function() {
+                setTimeout(updateCountdown, 1000);
+            });
+        }
+        
+        // Start the countdown
+        updateCountdown();
+    </script>
+</body>
+</html>
